@@ -4,50 +4,80 @@
 //valorC
 //valorX1
 //valorX2
+document.getElementById("btnCalcular").addEventListener("click",function(e) {
+  e.preventDefault()
+  calcular()
+})
 
+document.getElementById("btnLimpiar").addEventListener("click", function (){
+  limpiar()
+})
 
 function calcular() {
-  let strA = document.getElementById("valorA").value
-  let strB = document.getElementById("valorB").value
-  let strC = document.getElementById("valorC").value
+  let product1 = document.getElementById("producto1").value
+  let product2 = document.getElementById("producto2").value
+  let product3 = document.getElementById("producto3").value
+  let product4 = document.getElementById("producto4").value
+  let product5 = document.getElementById("producto5").value
 
 
-  if (strA === "") {
-    alerta("Advertencia", "El valor de A no puede ir en blanco", "warning")
-  } else if (strB === "") {
-    alerta("Advertencia", "El valor de B no puede ir en blanco", "warning")
-  } else if (strC === "") {
-    alerta("Advertencia", "Elvalor de C no  puede ir en blanco", "warning")
+  if (product1 === "") {
+    alerta("Advertencia", "El campo del producto 1 no puede ir en blanco", "warning")
+  } else if (product2=== "") {
+    alerta("Advertencia", "El campo del producto 2 no puede ir en blanco", "warning")
+  } else if (product3 === "") {
+    alerta("Advertencia", "El campo del producto 3 no puede ir en blanco", "warning")
+  }else if (product4 === "") {
+    alerta("Advertencia", "El campo del producto 4 no puede ir en blanco", "warning")
+  }else if (product5 === "") {
+    alerta("Advertencia", "El campo del producto 5 no puede ir en blanco", "warning")
   } else {
-    let a = parseInt(strA)
-    let b = parseInt(strB)
-    let c = parseInt(strC)
+    let p1 = parseFloat(product1)
+    let p2 = parseFloat(product2)
+    let p3 = parseFloat(product3)
+    let p4 = parseFloat(product4)
+    let p5 = parseFloat(product5)
 
-    // x = (-b ± √(b² - 4ac)) / 2a
-    if (a === 0) {
-      alerta("Error", "El valor de A no puede ser cero", "error")
-    } else {
-      let discriminante = (b * b) - (4 * a * c)
+    let subTotal = p1 + p2 + p3 +p4 + p5
+    document.getElementById("sub-total").value = subTotal.toFixed(2)
 
-      if (discriminante >= 0) {
-        let x1 = (-b + Math.sqrt(discriminante)) / (2 * a)
-        let x2 = (-b - Math.sqrt(discriminante)) / (2 * a)
+    let descuento = 0
+    let lblDescuento = "Descuento 0%"
 
-        document.getElementById("valorX1").value = x1
-        document.getElementById("valorX2").value = x2
-      } else {
-        alerta("Advertencia", "La raíz cuadrada no puede ser negativa", "warning")
-      }
+    if(subTotal >= 0 && subTotal <= 999.99){
+      descuento = 0.00
+      lblDescuento = "Descuento 0%"
+    }else if(subTotal >=1000 && subTotal <= 4999.99){
+      descuento = 0.10
+      lblDescuento = "Descuento 10%"
+    }else if(subTotal >=5000 && subTotal <= 8999.99){
+      descuento = 0.20
+      lblDescuento = "Descuento 20%"
+    } else if (subTotal >=9000 && subTotal <= 12999.99){
+      descuento = 0.30
+      lblDescuento = "Descuento 30%"
+    }else if (subTotal >= 13000){
+      descuento = 0.40
+      lblDescuento = "Descuento 40%"
     }
+    let descuentoTotal = subTotal * descuento
+    let total = subTotal - descuentoTotal
+    document.querySelector("label[for='descuento']").innerText = lblDescuento;
+    document.getElementById("descuento").value =  descuentoTotal.toFixed(2)
+    document.getElementById("total").value = total.toFixed(2)
   }
 }
 
 function limpiar() {
-  document.getElementById("valorA").value = ""
-  document.getElementById("valorB").value = ""
-  document.getElementById("valorC").value = ""
-  document.getElementById("valorX1").value = ""
-  document.getElementById("valorX2").value = ""
+  document.getElementById("producto1").value = ""
+  document.getElementById("producto2").value = ""
+  document.getElementById("producto3").value = ""
+  document.getElementById("producto4").value = ""
+  document.getElementById("producto5").value = ""
+  document.getElementById("sub-total").value = ""
+  document.querySelector("label[for='descuento']").innerText ="Descuento 0%"
+  document.getElementById("descuento").value = ""
+  document.getElementById("total").value = ""
 }
 function alerta(title, text, icon) {
   Swal.fire({
